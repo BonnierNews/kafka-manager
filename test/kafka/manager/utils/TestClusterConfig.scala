@@ -15,7 +15,7 @@ class TestClusterConfig extends FunSuite with Matchers {
 
   test("invalid name") {
     intercept[IllegalArgumentException] {
-      ClusterConfig("qa!","1.1.0","localhost",jmxEnabled = false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = None, securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
+      ClusterConfig("qa!","2.1.0","localhost",jmxEnabled = false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = None, securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
     }
   }
 

@@ -197,7 +197,7 @@ object ClusterConfig {
       {
         (name:String,curatorConfig:CuratorConfig,enabled:Boolean) =>
           val versionString = fieldExtended[String]("kafkaVersion")(json)
-          val version = versionString.map(KafkaVersion.apply).getOrElse(Kafka_1_1_0)
+          val version = versionString.map(KafkaVersion.apply).getOrElse(Kafka_2_1_0)
           val jmxEnabled = fieldExtended[Boolean]("jmxEnabled")(json)
           val jmxUser = fieldExtended[Option[String]]("jmxUser")(json)
           val jmxPass = fieldExtended[Option[String]]("jmxPass")(json)
