@@ -10,7 +10,8 @@ import kafka.manager.BaseTest
 import kafka.manager.model.ActorModel
 import ActorModel._
 import kafka.manager.features.ClusterFeatures
-import kafka.manager.model.{ClusterContext, ClusterConfig, Kafka_0_8_2_0}
+import kafka.manager.model.{ClusterConfig, ClusterContext}
+import kafka.manager.model.Kafka_1_1_0
 import kafka.manager.utils.zero81._
 import org.apache.zookeeper.data.Stat
 
@@ -23,7 +24,7 @@ class TestReassignPartitions extends CuratorAwareTest with BaseTest {
 
   import ReassignPartitionErrors._
 
-  private[this] val adminUtils  = new AdminUtils(Kafka_0_8_2_0)
+  private[this] val adminUtils  = new AdminUtils(Kafka_1_1_0)
   
   private[this] val reassignPartitionCommand = new ReassignPartitionCommand(adminUtils)
 

@@ -19,62 +19,6 @@ import scalaz.Validation.FlatMap._
 case class CuratorConfig(zkConnect: String, zkMaxRetry: Int = 100, baseSleepTimeMs : Int = 100, maxSleepTimeMs: Int = 1000)
 
 sealed trait KafkaVersion
-case object Kafka_0_8_1_1 extends KafkaVersion {
-  override def toString = "0.8.1.1"
-}
-case object Kafka_0_8_2_0 extends KafkaVersion {
-  override def toString = "0.8.2.0"
-}
-case object Kafka_0_8_2_1 extends KafkaVersion {
-  override def toString = "0.8.2.1"
-}
-case object Kafka_0_8_2_2 extends KafkaVersion {
-  override def toString = "0.8.2.2"
-}
-case object Kafka_0_9_0_0 extends KafkaVersion {
-  override def toString = "0.9.0.0"
-}
-case object Kafka_0_9_0_1 extends KafkaVersion {
-  override def toString = "0.9.0.1"
-}
-case object Kafka_0_10_0_0 extends KafkaVersion {
-  override def toString = "0.10.0.0"
-}
-case object Kafka_0_10_0_1 extends KafkaVersion {
-  override def toString = "0.10.0.1"
-}
-
-case object Kafka_0_10_1_0 extends KafkaVersion {
-  override def toString = "0.10.1.0"
-}
-
-case object Kafka_0_10_1_1 extends KafkaVersion {
-  override def toString = "0.10.1.1"
-}
-
-case object Kafka_0_10_2_0 extends KafkaVersion {
-  override def toString = "0.10.2.0"
-}
-
-case object Kafka_0_10_2_1 extends KafkaVersion {
-  override def toString = "0.10.2.1"
-}
-
-case object Kafka_0_11_0_0 extends KafkaVersion {
-  override def toString = "0.11.0.0"
-}
-
-case object Kafka_0_11_0_2 extends KafkaVersion {
-  override def toString = "0.11.0.2"
-}
-
-case object Kafka_1_0_0 extends KafkaVersion {
-  override def toString = "1.0.0"
-}
-
-case object Kafka_1_0_1 extends KafkaVersion {
-  override def toString = "1.0.1"
-}
 
 case object Kafka_1_1_0 extends KafkaVersion {
   override def toString = "1.1.0"
@@ -90,23 +34,6 @@ case object Kafka_2_1_0 extends KafkaVersion {
 
 object KafkaVersion {
   val supportedVersions: Map[String,KafkaVersion] = Map(
-    "0.8.1.1" -> Kafka_0_8_1_1,
-    "0.8.2-beta" -> Kafka_0_8_2_0,
-    "0.8.2.0" -> Kafka_0_8_2_0,
-    "0.8.2.1" -> Kafka_0_8_2_1,
-    "0.8.2.2" -> Kafka_0_8_2_2,
-    "0.9.0.0" -> Kafka_0_9_0_0,
-    "0.9.0.1" -> Kafka_0_9_0_1,
-    "0.10.0.0" -> Kafka_0_10_0_0,
-    "0.10.0.1" -> Kafka_0_10_0_1,
-    "0.10.1.0" -> Kafka_0_10_1_0,
-    "0.10.1.1" -> Kafka_0_10_1_1,
-    "0.10.2.0" -> Kafka_0_10_2_0,
-    "0.10.2.1" -> Kafka_0_10_2_1,
-    "0.11.0.0" -> Kafka_0_11_0_0,
-    "0.11.0.2" -> Kafka_0_11_0_2,
-    "1.0.0" -> Kafka_1_0_0,
-    "1.0.1" -> Kafka_1_0_1,
     "1.1.0" -> Kafka_1_1_0,
     "2.0.0" -> Kafka_2_0_0,
     "2.1.0" -> Kafka_2_1_0
@@ -270,7 +197,7 @@ object ClusterConfig {
       {
         (name:String,curatorConfig:CuratorConfig,enabled:Boolean) =>
           val versionString = fieldExtended[String]("kafkaVersion")(json)
-          val version = versionString.map(KafkaVersion.apply).getOrElse(Kafka_0_8_1_1)
+          val version = versionString.map(KafkaVersion.apply).getOrElse(Kafka_1_1_0)
           val jmxEnabled = fieldExtended[Boolean]("jmxEnabled")(json)
           val jmxUser = fieldExtended[Option[String]]("jmxUser")(json)
           val jmxPass = fieldExtended[Option[String]]("jmxPass")(json)

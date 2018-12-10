@@ -235,6 +235,7 @@ class TestKafkaManager extends CuratorAwareTest with BaseTest {
     val result = Await.result(future,duration)
     assert(result.isRight === true, s"Failed : ${result}")
     assert(result.toOption.get.clusterContext.config.activeOffsetCacheEnabled === false, s"Failed : ${result}")
+    println(s"Result: ${result}")
     assert(result.toOption.get.topicMap.head._1 === seededTopic, s"Failed : ${result}")
   }
 
@@ -411,7 +412,7 @@ class TestKafkaManager extends CuratorAwareTest with BaseTest {
   }
 
   test("update cluster version") {
-    val future = kafkaManager.updateCluster("dev","0.8.1.1",testServer.getConnectString, jmxEnabled = false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
+    val future = kafkaManager.updateCluster("dev","1.1.0",testServer.getConnectString, jmxEnabled = false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
     val result = Await.result(future,duration)
     assert(result.isRight === true)
     Thread.sleep(2000)
@@ -420,7 +421,7 @@ class TestKafkaManager extends CuratorAwareTest with BaseTest {
     val result2 = Await.result(future2,duration)
     assert(result2.isRight === true)
     assert((result2.toOption.get.pending.nonEmpty === true) ||
-           (result2.toOption.get.active.find(c => c.name == "dev").get.version === Kafka_0_8_1_1))
+           (result2.toOption.get.active.find(c => c.name == "dev").get.version === Kafka_1_1_0))
     Thread.sleep(2000)
   }
 

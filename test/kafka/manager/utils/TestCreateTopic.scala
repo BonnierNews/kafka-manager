@@ -9,18 +9,20 @@ import java.util.Properties
 import TopicErrors._
 import kafka.manager.BaseTest
 import kafka.manager.model.ActorModel
-import ActorModel.{PartitionOffsetsCapture, TopicIdentity, TopicDescription}
+import ActorModel.{PartitionOffsetsCapture, TopicDescription, TopicIdentity}
 import kafka.manager.features.ClusterFeatures
-import kafka.manager.model.{ClusterContext, ClusterConfig, Kafka_0_8_2_0}
+import kafka.manager.model.{ClusterConfig, ClusterContext}
+import kafka.manager.model.Kafka_1_1_0
 import org.apache.zookeeper.data.Stat
+
 import scala.concurrent.Future
 /**
  * @author hiral
  */
 class TestCreateTopic extends CuratorAwareTest with BaseTest {
   
-  private[this] val adminUtils  = new AdminUtils(Kafka_0_8_2_0)
-  private[this] val defaultClusterConfig = ClusterConfig("test","0.8.2.0","localhost:2818",100,false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
+  private[this] val adminUtils  = new AdminUtils(Kafka_1_1_0)
+  private[this] val defaultClusterConfig = ClusterConfig("test","1.1.0","localhost:2818",100,false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
   private[this] val defaultClusterContext = ClusterContext(ClusterFeatures.from(defaultClusterConfig), defaultClusterConfig)
 
   test("create topic with empty name") {
