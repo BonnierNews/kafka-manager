@@ -17,7 +17,6 @@ import com.github.benmanes.caffeine.cache.{Cache, Caffeine, RemovalCause, Remova
 import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 import grizzled.slf4j.Logging
 import kafka.admin.AdminClient
-import kafka.api.PartitionOffsetRequestInfo
 import kafka.common.{OffsetAndMetadata, TopicAndPartition}
 import kafka.manager._
 import kafka.manager.base.cluster.{BaseClusterQueryActor, BaseClusterQueryCommandActor}
@@ -48,7 +47,6 @@ import org.apache.kafka.clients.consumer.internals.ConsumerProtocol
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.protocol.Errors
 import org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG
-
 /**
   * @author hiral
   */
@@ -507,8 +505,8 @@ trait OffsetCache extends Logging {
               val kafkaConsumer = getKafkaConsumer()
               val f: Future[Map[TopicPartition, java.lang.Long]] = Future {
                 try {
-                  val topicAndPartitions = parts.map(tpl => (TopicAndPartition(topic, tpl._2), PartitionOffsetRequestInfo(time, nOffsets)))
-                  val request: List[TopicPartition] = topicAndPartitions.map(f => new TopicPartition(f._1.topic, f._1.partition))
+                  val topicAndPartitions = parts.map(tpl => TopicAndPartition(topic, tpl._2))
+                  val request: List[TopicPartition] = topicAndPartitions.map(f => new TopicPartition(f.topic, f.partition))
                   kafkaConsumer.endOffsets(request.asJava).asScala.toMap
                 } finally {
                   kafkaConsumer.close()
@@ -1434,7 +1432,7 @@ class KafkaStateActor(config: KafkaStateActorConfig) extends BaseClusterQueryCom
             cache.getCurrentChildren(ZkUtils.BrokerTopicsPath)
           }.fold {
           } { data: java.util.Map[String, ChildData] =>
-            var broker2TopicPartitionMap: Map[BrokerIdentity, List[(TopicAndPartition, PartitionOffsetRequestInfo)]] = Map()
+            var broker2TopicPartitionMap: Map[BrokerIdentity, List[(TopicAndPartition)]] = Map()
 
             breakable {
               data.asScala.keys.toIndexedSeq.foreach(topic => {
@@ -1447,13 +1445,13 @@ class KafkaStateActor(config: KafkaStateActorConfig) extends BaseClusterQueryCom
                     leaders.foreach(leader => {
                       leader._2 match {
                         case Some(brokerIden) =>
-                          var tlList : List[(TopicAndPartition, PartitionOffsetRequestInfo)] = null
+                          var tlList : List[TopicAndPartition] = null
                           if (broker2TopicPartitionMap.contains(brokerIden)) {
                             tlList = broker2TopicPartitionMap(brokerIden)
                           } else {
                             tlList = List()
                           }
-                          tlList = (TopicAndPartition(topic, leader._1), PartitionOffsetRequestInfo(-1, 1)) +: tlList
+                          tlList = TopicAndPartition(topic, leader._1) +: tlList
                           broker2TopicPartitionMap += (brokerIden -> tlList)
                         case None =>
                       }
@@ -1488,7 +1486,7 @@ class KafkaStateActor(config: KafkaStateActorConfig) extends BaseClusterQueryCom
                 var kafkaConsumer: Option[KafkaConsumer[Any, Any]] = None
                 try {
                   kafkaConsumer = Option(new KafkaConsumer(consumerProperties))
-                  val request = tpList.map(f => new TopicPartition(f._1.topic, f._1.partition))
+                  val request = tpList.map(f => new TopicPartition(f.topic, f.partition))
                   var tpOffsetMapOption = kafkaConsumer.map(_.endOffsets(request))
 
                   var topicOffsetMap: Map[Int, Long] = null

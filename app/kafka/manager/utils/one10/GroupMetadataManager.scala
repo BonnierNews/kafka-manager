@@ -258,20 +258,6 @@ class GroupMetadata(val groupId: String
     }.toMap
   }
 
-  def removeExpiredOffsets(startMs: Long) : Map[TopicPartition, OffsetAndMetadata] = {
-    val expiredOffsets = offsets
-      .filter {
-        case (topicPartition, commitRecordMetadataAndOffset) =>
-          commitRecordMetadataAndOffset.offsetAndMetadata.expireTimestamp < startMs && !pendingOffsetCommits.contains(topicPartition)
-      }
-      .map {
-        case (topicPartition, commitRecordOffsetAndMetadata) =>
-          (topicPartition, commitRecordOffsetAndMetadata.offsetAndMetadata)
-      }
-    offsets --= expiredOffsets.keySet
-    expiredOffsets.toMap
-  }
-
   def allOffsets = offsets.map { case (topicPartition, commitRecordMetadataAndOffset) =>
     (topicPartition, commitRecordMetadataAndOffset.offsetAndMetadata)
   }.toMap
