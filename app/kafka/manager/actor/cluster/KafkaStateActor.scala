@@ -8,6 +8,7 @@ package kafka.manager.actor.cluster
 import java.io.Closeable
 import java.net.InetAddress
 import java.nio.ByteBuffer
+import java.time.Duration
 import java.util.Properties
 import java.util.concurrent.{ConcurrentLinkedDeque, TimeUnit}
 
@@ -339,7 +340,7 @@ case class KafkaManagedOffsetCache(clusterContext: ClusterContext
                   error("Failed to backfill group metadata", e)
               }
 
-              val records: ConsumerRecords[Array[Byte], Array[Byte]] = consumer.poll(100)
+              val records: ConsumerRecords[Array[Byte], Array[Byte]] = consumer.poll(Duration.ofMillis(100))
               val iterator = records.iterator()
               while (iterator.hasNext) {
                 val record = iterator.next()
