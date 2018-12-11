@@ -6,23 +6,21 @@ package kafka.manager.utils
 
 import java.util.Properties
 
-import LogkafkaErrors._
+import kafka.manager.utils.LogkafkaErrors._
 import kafka.manager.BaseTest
-import kafka.manager.model.ActorModel
-import ActorModel.{LogkafkaIdentity}
 import kafka.manager.features.ClusterFeatures
-import kafka.manager.model.{ClusterContext, ClusterConfig, Kafka_0_8_2_0}
-import org.apache.zookeeper.data.Stat
-import scala.concurrent.Future
+import kafka.manager.model.ClusterConfig
+import kafka.manager.model.ClusterContext
+import kafka.manager.model.Kafka_2_1_0
 /**
  * @author zheolong
  */
 class TestCreateLogkafka extends CuratorAwareTest with BaseTest {
 
-  import logkafka82.LogkafkaConfigErrors._ 
+  import logkafka82.LogkafkaConfigErrors._
   
-  private[this] val adminUtils  = new LogkafkaAdminUtils(Kafka_0_8_2_0)
-  private[this] val defaultClusterConfig = ClusterConfig("test","0.8.2.0","localhost:2818",100,false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
+  private[this] val adminUtils  = new LogkafkaAdminUtils(Kafka_2_1_0)
+  private[this] val defaultClusterConfig = ClusterConfig("test","2.1.0","localhost:2818",100,false, pollConsumers = true, filterConsumers = true, jmxUser = None, jmxPass = None, jmxSsl = false, tuning = Option(defaultTuning), securityProtocol = "PLAINTEXT", saslMechanism = None, jaasConfig = None)
   private[this] val defaultClusterContext = ClusterContext(ClusterFeatures.from(defaultClusterConfig), defaultClusterConfig)
   private[this] val createLogkafkaLogkafkaId = "km-unit-test-logkafka-logkafka_id"
   private[this] val createLogkafkaLogPath = "/km-unit-test-logkafka-logpath"

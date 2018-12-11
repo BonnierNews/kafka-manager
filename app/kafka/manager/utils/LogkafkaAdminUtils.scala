@@ -20,7 +20,8 @@ package kafka.manager.utils
 import java.util.Properties
 
 import grizzled.slf4j.Logging
-import kafka.manager.model.{Kafka_0_8_2_0, KafkaVersion, ActorModel}
+import kafka.manager.model.ActorModel
+import kafka.manager.model.KafkaVersion
 import org.apache.curator.framework.CuratorFramework
 
 import scala.collection.mutable
@@ -32,7 +33,6 @@ class LogkafkaAdminUtils(version: KafkaVersion) extends Logging {
 
   def isDeleteSupported : Boolean = {
     version match {
-      case Kafka_0_8_2_0 => true
       case _ => false
     }
   }

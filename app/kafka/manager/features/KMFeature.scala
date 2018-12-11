@@ -5,10 +5,12 @@
 package kafka.manager.features
 
 import grizzled.slf4j.Logging
-import kafka.manager.model.{Kafka_0_8_1_1, ClusterConfig}
+import kafka.manager.model.ClusterConfig
 
 import scala.collection.mutable.ListBuffer
-import scala.util.{Success, Failure, Try}
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 
 /**
  * Created by hiral on 8/22/15.
@@ -67,8 +69,7 @@ object ClusterFeatures {
     if(clusterConfig.displaySizeEnabled)
       buffer+=KMDisplaySizeFeature
     
-    if(clusterConfig.version != Kafka_0_8_1_1)
-      buffer+=KMDeleteTopicFeature
+    buffer+=KMDeleteTopicFeature
 
     if(clusterConfig.pollConsumers)
       buffer+=KMPollConsumersFeature

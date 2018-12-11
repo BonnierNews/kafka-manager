@@ -53,43 +53,13 @@ class Logkafka (val messagesApi: MessagesApi, val kafkaManagerContext: KafkaMana
       case Success(_) => Valid
     }
   }
-  
-  val kafka_0_8_1_1_Default = CreateLogkafka("","",
-      LogkafkaNewConfigs.configMaps(Kafka_0_8_1_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_8_2_0_Default = CreateLogkafka("","",
-      LogkafkaNewConfigs.configMaps(Kafka_0_8_2_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_8_2_1_Default = CreateLogkafka("","",
-      LogkafkaNewConfigs.configMaps(Kafka_0_8_2_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_8_2_2_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_8_2_2).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_9_0_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_9_0_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_9_0_1_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_9_0_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_0_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_0_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_0_1_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_0_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_1_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_1_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_1_1_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_1_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_2_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_2_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_10_2_1_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_10_2_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_11_0_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_11_0_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_0_11_0_2_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_0_11_0_2).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_1_0_0_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_1_0_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
-  val kafka_1_0_1_Default = CreateLogkafka("","",
-    LogkafkaNewConfigs.configMaps(Kafka_1_0_1).map{case(k,v) => LKConfig(k,Some(v))}.toList)
+
   val kafka_1_1_0_Default = CreateLogkafka("","",
     LogkafkaNewConfigs.configMaps(Kafka_1_1_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
   val kafka_2_0_0_Default = CreateLogkafka("","",
     LogkafkaNewConfigs.configMaps(Kafka_2_0_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
+  val kafka_2_1_0_Default = CreateLogkafka("","",
+    LogkafkaNewConfigs.configMaps(Kafka_2_1_0).map{case(k,v) => LKConfig(k,Some(v))}.toList)
 
   val defaultCreateForm = Form(
     mapping(
@@ -128,24 +98,9 @@ class Logkafka (val messagesApi: MessagesApi, val kafkaManagerContext: KafkaMana
     kafkaManager.getClusterContext(clusterName).map { errorOrConfig =>
       errorOrConfig.map { clusterContext =>
         clusterContext.config.version match {
-          case Kafka_0_8_1_1 => (defaultCreateForm.fill(kafka_0_8_1_1_Default), clusterContext)
-          case Kafka_0_8_2_0 => (defaultCreateForm.fill(kafka_0_8_2_0_Default), clusterContext)
-          case Kafka_0_8_2_1 => (defaultCreateForm.fill(kafka_0_8_2_1_Default), clusterContext)
-          case Kafka_0_8_2_2 => (defaultCreateForm.fill(kafka_0_8_2_2_Default), clusterContext)
-          case Kafka_0_9_0_0 => (defaultCreateForm.fill(kafka_0_9_0_0_Default), clusterContext)
-          case Kafka_0_9_0_1 => (defaultCreateForm.fill(kafka_0_9_0_1_Default), clusterContext)
-          case Kafka_0_10_0_0 => (defaultCreateForm.fill(kafka_0_10_0_0_Default), clusterContext)
-          case Kafka_0_10_0_1 => (defaultCreateForm.fill(kafka_0_10_0_1_Default), clusterContext)
-          case Kafka_0_10_1_0 => (defaultCreateForm.fill(kafka_0_10_1_0_Default), clusterContext)
-          case Kafka_0_10_1_1 => (defaultCreateForm.fill(kafka_0_10_1_1_Default), clusterContext)
-          case Kafka_0_10_2_0 => (defaultCreateForm.fill(kafka_0_10_2_0_Default), clusterContext)
-          case Kafka_0_10_2_1 => (defaultCreateForm.fill(kafka_0_10_2_1_Default), clusterContext)
-          case Kafka_0_11_0_0 => (defaultCreateForm.fill(kafka_0_11_0_0_Default), clusterContext)
-          case Kafka_0_11_0_2 => (defaultCreateForm.fill(kafka_0_11_0_2_Default), clusterContext)
-          case Kafka_1_0_0 => (defaultCreateForm.fill(kafka_1_0_0_Default), clusterContext)
-          case Kafka_1_0_1 => (defaultCreateForm.fill(kafka_1_0_1_Default), clusterContext)
           case Kafka_1_1_0 => (defaultCreateForm.fill(kafka_1_1_0_Default), clusterContext)
           case Kafka_2_0_0 => (defaultCreateForm.fill(kafka_2_0_0_Default), clusterContext)
+          case Kafka_2_1_0 => (defaultCreateForm.fill(kafka_2_1_0_Default), clusterContext)
         }
       }
     }
@@ -228,24 +183,9 @@ class Logkafka (val messagesApi: MessagesApi, val kafkaManagerContext: KafkaMana
 
   private def updateConfigForm(clusterContext: ClusterContext, log_path: String, li: LogkafkaIdentity) = {
     val defaultConfigMap = clusterContext.config.version match {
-      case Kafka_0_8_1_1 => LogkafkaNewConfigs.configNames(Kafka_0_8_1_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_8_2_0 => LogkafkaNewConfigs.configNames(Kafka_0_8_2_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_8_2_1 => LogkafkaNewConfigs.configNames(Kafka_0_8_2_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_8_2_2 => LogkafkaNewConfigs.configNames(Kafka_0_8_2_2).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_9_0_0 => LogkafkaNewConfigs.configNames(Kafka_0_9_0_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_9_0_1 => LogkafkaNewConfigs.configNames(Kafka_0_9_0_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_0_0 => LogkafkaNewConfigs.configNames(Kafka_0_10_0_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_0_1 => LogkafkaNewConfigs.configNames(Kafka_0_10_0_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_1_0 => LogkafkaNewConfigs.configNames(Kafka_0_10_1_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_1_1 => LogkafkaNewConfigs.configNames(Kafka_0_10_1_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_2_0 => LogkafkaNewConfigs.configNames(Kafka_0_10_2_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_10_2_1 => LogkafkaNewConfigs.configNames(Kafka_0_10_2_1).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_11_0_0 => LogkafkaNewConfigs.configNames(Kafka_0_11_0_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_0_11_0_2 => LogkafkaNewConfigs.configNames(Kafka_0_11_0_2).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_1_0_0 => LogkafkaNewConfigs.configNames(Kafka_1_0_0).map(n => (n,LKConfig(n,None))).toMap
-      case Kafka_1_0_1 => LogkafkaNewConfigs.configNames(Kafka_1_0_1).map(n => (n,LKConfig(n,None))).toMap
       case Kafka_1_1_0 => LogkafkaNewConfigs.configNames(Kafka_1_1_0).map(n => (n,LKConfig(n,None))).toMap
       case Kafka_2_0_0 => LogkafkaNewConfigs.configNames(Kafka_2_0_0).map(n => (n,LKConfig(n,None))).toMap
+      case Kafka_2_1_0 => LogkafkaNewConfigs.configNames(Kafka_2_1_0).map(n => (n,LKConfig(n,None))).toMap
     }
     val identityOption = li.identityMap.get(log_path)
     if (identityOption.isDefined) {

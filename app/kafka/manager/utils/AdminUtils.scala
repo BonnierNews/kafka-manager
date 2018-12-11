@@ -266,7 +266,6 @@ class AdminUtils(version: KafkaVersion) extends Logging {
 
     // Create the topic change data
     val topicChange = version match {
-      case Kafka_0_8_1_1 | Kafka_0_8_2_0 | Kafka_0_8_2_1 | Kafka_0_8_2_2 => toJson(topic)
       case _ => toJson(Map(
         "version" -> 1,
         "entity_type" -> "topics",

@@ -5,22 +5,26 @@
 
 package kafka.manager.jmx
 
-import java.io.File
 import java.{util => ju}
-import javax.management._
-import javax.management.remote.rmi.RMIConnectorServer
-import javax.management.remote.{JMXConnectorFactory, JMXServiceURL, JMXConnector}
-import javax.naming.Context
-import javax.rmi.ssl.SslRMIClientSocketFactory
+import java.io.File
 
 import com.yammer.metrics.reporting.JmxReporter.GaugeMBean
 import grizzled.slf4j.Logging
-import kafka.manager.model.{Kafka_0_8_1_1, KafkaVersion, ActorModel}
-import ActorModel.BrokerMetrics
+import javax.management._
+import javax.management.remote.JMXConnector
+import javax.management.remote.JMXConnectorFactory
+import javax.management.remote.JMXServiceURL
+import javax.management.remote.rmi.RMIConnectorServer
+import javax.naming.Context
+import javax.rmi.ssl.SslRMIClientSocketFactory
+import kafka.manager.model.ActorModel
+import kafka.manager.model.KafkaVersion
+import kafka.manager.model.ActorModel.BrokerMetrics
 
 import scala.collection.JavaConverters._
+import scala.util.Failure
+import scala.util.Try
 import scala.util.matching.Regex
-import scala.util.{Failure, Try}
 
 object KafkaJMX extends Logging {
   
@@ -102,7 +106,6 @@ object KafkaMetrics {
   
   private def getSep(kafkaVersion: KafkaVersion) : String = {
     kafkaVersion match {
-      case Kafka_0_8_1_1 => "\""
       case _ => ""
     }
   }
@@ -110,8 +113,6 @@ object KafkaMetrics {
   def getObjectName(kafkaVersion: KafkaVersion, name: String, topicOption: Option[String] = None) = {
     val sep = getSep(kafkaVersion)
     val topicAndName = kafkaVersion match {
-      case Kafka_0_8_1_1 => 
-        topicOption.map( topic => s"${sep}$topic-$name${sep}").getOrElse(s"${sep}AllTopics$name${sep}")
       case _ =>
         val topicProp = topicOption.map(topic => s",topic=$topic").getOrElse("")
         s"$name$topicProp"
